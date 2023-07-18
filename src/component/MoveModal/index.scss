@@ -1,0 +1,59 @@
+$moveModalTop: var(--moveModal-top, 0);
+$moveModalLeft: var(--moveModal-left, 0);
+$moveModalWidth: var(--moveModal-width, 0);
+$moveModalHeight: var(--moveModal-height, 0);
+
+.move-modal.move-modal-active, .move-modal.react-draggable-dragging {
+  z-index: 9999;
+  /*box-shadow: 0 0 15px 0 #161515;*/
+}
+
+.move-modal {
+  position: fixed;
+  z-index: 1;
+  /*border-radius: 4px;*/
+  color: #e1e1e1;
+  border: 1px solid #404654;
+  overflow: hidden;
+  transition: opacity .5s, width .5s, height .5s, top .5s, left .5s;
+}
+
+.move-modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #2f353e;
+  background: black;
+  color: #e1e1e1;
+  cursor: move
+}
+
+.move-modal-body {
+  padding: 0 15px;
+  background: #101218;
+}
+
+.move-modal-title {
+  color: #e1e1e1;
+}
+
+.move-modal-close {
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  padding: 2px 4px;
+  color: #e1e1e1;
+  cursor: default;
+  border-radius: 5px;
+}
+
+.move-modal-close:active {
+  background-color: rgb(163 163 163 / 15%);
+}
+
+.move-modal-close:hover {
+  color: rgb(213 132 132 / 88%);
+  background-color: rgb(163 163 163 / 15%);
+}
+
+.move-modal-moving {
+  opacity: .8 !important;
+}

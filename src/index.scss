@@ -1,0 +1,29 @@
+/* 主题变量 */
+:root {
+  --theme-color: #e1e1e1;
+  --theme-less-color: #8d8d8d;
+  --theme-background-color: #8d8d8d;
+  --theme-less-background-color: #464e5c;
+  --theme-border-color: #404654;
+  --theme-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: var(--theme-less-background-color);
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: var(--theme-background-color);
+  -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
