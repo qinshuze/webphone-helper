@@ -1,4 +1,5 @@
 import {ClientEventMap, CloseEvent, ErrorEvent, MessageEvent} from "./ClientEventMap";
+import {getUuid} from "../../utils";
 
 export type ReceiveMessage = {
     readonly type: "relay" | "join" | "leave"
@@ -81,7 +82,7 @@ export default class Client extends EventTarget{
 
         this.websocket.addEventListener("close", (ev) => {
             if (ev.code === 3001) this.isAuthed = false
-            if (!this.isClosed) this.connect(url)
+            if (!this.isClosed) setTimeout(() => this.connect(url), 5000)
 
             if (this.isClosed) {
                 this.dispatchEvent(new CloseEvent(ev.code, ev.reason))
@@ -168,7 +169,7 @@ export default class Client extends EventTarget{
      * @param timeout
      */
     sendAndReceive(content: MessageContent, options?: SendOptions, timeout = 10000) {
-        content.msgId = content.msgId || window.crypto.randomUUID()
+        content.msgId = content.msgId || getUuid()
         content.msgType = content.msgType || ""
 
         return new Promise<ReceiveMessage>((resolve, reject) => {

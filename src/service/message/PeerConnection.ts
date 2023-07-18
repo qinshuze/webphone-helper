@@ -1,6 +1,7 @@
 import Client from "./Client";
 import {PeerConnectionEventMap} from "./PeerConnectionEventMap";
 import {MessageEvent} from "./ClientEventMap";
+import {getUuid} from "../../utils";
 
 export type CandidateSignaling = {
     sdpMid: string
@@ -25,7 +26,7 @@ export type SignalingContent = {
 export default class PeerConnection extends EventTarget {
     /** 初始化属性 **/
     private connection: RTCPeerConnection
-    private signalingId = window.crypto.randomUUID()
+    private signalingId = getUuid()
     private connectProcess = ""
     private connectionTimeoutHandler?: NodeJS.Timeout
 

@@ -13,6 +13,8 @@ import FileManager from "../../component/FileManager";
 import MoveModal from "../../component/MoveModal";
 import Client, {MessageContent} from "../../service/message/Client";
 import Camera from "../../component/Camera";
+import {getUuid} from "../../utils";
+import {PoweroffOutlined} from "@ant-design/icons";
 
 type ReceiveMessage = {
     type: "relay" | "join" | "leave" | "disconnected"
@@ -59,7 +61,7 @@ function makePeerConn(deviceId: string, ws: WebSocket, options: {
     onClose?: (conn: RTCPeerConnection) => any,
     onProgress?: (progress: number) => any,
 } = {}) {
-    const signalingId = window.crypto.randomUUID()
+    const signalingId = getUuid()
     const configuration = {iceServers: [{urls: 'stun:stun.l.google.com:19302'}]};
     const peerConnection = new RTCPeerConnection(configuration)
 
@@ -343,7 +345,7 @@ export default function Home() {
                                 return;
                             }
 
-                            addMoveModal(<FileManager key={crypto.randomUUID()}/>)
+                            addMoveModal(<FileManager key={getUuid()}/>)
                         }}
                              className="left-navigation-item">
                             <img title="文件管理器" className="left-navigation-icon" src={file_manager} alt=""/>
@@ -379,7 +381,7 @@ export default function Home() {
                             isOpenCamera = true
                             addMoveModal(<Camera className="camera-video-source" modal={{
                                 onCancel: () => isOpenCamera = false
-                            }} key={crypto.randomUUID()} msgClient={msgClient} deviceId={deviceId} />)
+                            }} key={getUuid()} msgClient={msgClient} deviceId={deviceId} />)
 
                             return
 
@@ -419,7 +421,7 @@ export default function Home() {
 
                             addMoveModal(<MoveModal onCancel={() => {
                                 cameraPeerConn?.close()
-                            }} title="相机" key={crypto.randomUUID()}>
+                            }} title="相机" key={getUuid()}>
                                 <div id="id" style={{
                                     width: 300,
                                     height: 500,
@@ -484,15 +486,27 @@ export default function Home() {
                             : <span style={{color: "red"}}>离线</span>
                 }
                 <span style={{marginLeft: 20, marginRight: 10}}>网络延迟:</span>
-                {
-                    networkDelay === 0
-                        ? <span>--</span>
-                        : networkDelay < 200
-                            ? <span style={{color: "green"}}>{networkDelay}ms</span>
-                            : networkDelay < 500
-                                ? <span style={{color: "yellow"}}>{networkDelay}ms</span>
-                                : <span style={{color: "red"}}>{networkDelay}ms</span>
-                }
+                <div style={{display: "inline-block", width: 65}}>
+                    {
+                        networkDelay === 0
+                            ? <span>--</span>
+                            : networkDelay < 200
+                                ? <span style={{color: "green"}}>{networkDelay}ms</span>
+                                : networkDelay < 500
+                                    ? <span style={{color: "yellow"}}>{networkDelay}ms</span>
+                                    : <span style={{color: "red"}}>{networkDelay}ms</span>
+                    }
+                </div>
+
+                <span title="退出登录" onClick={() => {
+                    msgClient?.send({msgType: "logout"} as MessageContent, {names: [deviceId]})
+                    setTimeout(() => {
+                        setToken("")
+                        setUserId("")
+                        setDeviceId("")
+                        window.location.replace("/login")
+                    }, 100)
+                }} className="power" style={{padding: "2px 5px", borderRadius: 4}}><PoweroffOutlined /></span>
                 {/*<span style={{marginLeft: 20, marginRight: 10}}>隧道状态:</span>*/}
                 {/*{*/}
                 {/*    deviceSocketState !== "online" ? <span>--</span> :*/}

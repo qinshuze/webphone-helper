@@ -2,6 +2,7 @@ import MoveModal, {MoveModalProps} from "../MoveModal";
 import React, {useEffect, useRef, useState} from "react";
 import PeerConnection from "../../service/message/PeerConnection";
 import Client from "../../service/message/Client";
+import {getUuid} from "../../utils";
 
 type CameraProps = {
     msgClient: Client
@@ -15,7 +16,7 @@ type CameraProps = {
 
 type ConnState = "connecting" | "open" | "failure" | "close"
 let peerConnection: PeerConnection|null = null
-let divId = "camera-" + window.crypto.randomUUID()
+let divId = "camera-" + getUuid()
 export default function Camera(props: CameraProps) {
     const videoRef = useRef<HTMLVideoElement>(null)
     const [mediaStream, setMediaStream] = useState<MediaStream | null>(null)

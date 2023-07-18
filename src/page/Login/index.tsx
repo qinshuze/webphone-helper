@@ -6,6 +6,7 @@ import {useDeviceId, useUserId, useUserToken} from "../../hook/User";
 import {useNavigate} from "react-router-dom";
 import {Path} from "../../config/routes";
 import logo from "../../assets/icon/photo.png";
+import {getUuid} from "../../utils";
 
 type SetStateAction<T> = React.Dispatch<React.SetStateAction<T>>
 type QrState = "not" | "used" | "complete" | "expired"
@@ -50,7 +51,7 @@ function checkAndUpdateQROpState(uuid: string, setState: SetStateAction<QrState>
 }
 
 export default function Login() {
-    const [qrId, setQRId] = useState(crypto.randomUUID().toString())
+    const [qrId, setQRId] = useState(getUuid())
     const [qrStatus, setQrState] = useState<QrState>("not")
     const [, setUserId] = useUserId()
     const [, setDeviceId] = useDeviceId()
@@ -82,19 +83,25 @@ export default function Login() {
 
     return (
         <Row className="QRCode" justify="space-around" align="middle">
-            <QRCode
-                // 点击刷新二维码
-                onRefresh={() => {
-                    setQRId(crypto.randomUUID().toString())
-                    setQrState("not")
-                }}
-                status={qrStateMap.get(qrStatus)}
-                size={250}
-                errorLevel="H"
-                value={`${process.env.REACT_APP_ADMIN_API_URL}/qrcode?id=${qrId}`}
-                icon={logo}
-                iconSize={80}
-            />
+            <div>
+                <QRCode
+                    // 点击刷新二维码
+                    onRefresh={() => {
+                        setQRId(getUuid())
+                        setQrState("not")
+                    }}
+                    status={qrStateMap.get(qrStatus)}
+                    size={250}
+                    errorLevel="H"
+                    value={`${process.env.REACT_APP_ADMIN_API_URL}/qrcode?id=${qrId}`}
+                    icon={logo}
+                    iconSize={80}
+                />
+                <div style={{textAlign: "center", width: 250}}>
+                    <p style={{color: "#858585"}}>使用APP扫描进行登录，登录后便可以在网页端管理您的设备</p>
+                    <p><a href="">点击此处下载 APP</a></p>
+                </div>
+            </div>
         </Row>
     )
 }

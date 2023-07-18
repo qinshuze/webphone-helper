@@ -3,6 +3,17 @@
     /*text-align: center;*/
 }
 
+.App .power {
+    cursor: pointer;
+    color: #a97a7a;
+    transition: background-color .3s, color .3s;
+}
+
+.App .power:hover {
+    color: #b44747;
+    background-color: #2f353e;
+}
+
 .App-logo {
     height: 40vmin;
     pointer-events: none;

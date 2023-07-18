@@ -25,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:pro": "dotenv -e .env.production  react-scripts build",
+    "build:pro": "dotenv -e .env.production.local  react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
