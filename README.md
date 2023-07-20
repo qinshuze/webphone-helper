@@ -8,3 +8,6 @@
 
 ## 视频通话
 ![camera_live](https://github.com/qinshuze/webphone-helper/assets/22045080/d1b19c25-fccd-4b54-930f-2e8d52fc2016)
+## 文件下载
+
+![React App - Google Chrome 2023-07-20 13-22-04_Sub_05_1](https://github.com/qinshuze/webphone-helper/assets/22045080/d3ec27ac-11a7-410d-ae71-c63391e6e37f)
