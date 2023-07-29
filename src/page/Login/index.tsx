@@ -99,7 +99,7 @@ export default function Login() {
                 />
                 <div style={{textAlign: "center", width: 250}}>
                     <p style={{color: "#858585"}}>使用APP扫描进行登录，登录后便可以在网页端管理您的设备</p>
-                    <p><a href="">点击此处下载 APP</a></p>
+                    <p><a href="https://qszpub.oss-cn-shenzhen.aliyuncs.com/webphone-helper-v1.0.apk">点击此处下载 APP</a></p>
                 </div>
             </div>
         </Row>
