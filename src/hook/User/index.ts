@@ -4,12 +4,12 @@ import {AppContext} from "../../App";
 function initState(): UI.User {
     return {
         test: "qqqq",
-        id: localStorage.getItem("userId") || "",
-        deviceId: localStorage.getItem("deviceId") || "",
-        token: localStorage.getItem("token") || "",
+        id: localStorage.getItem("userId") || "qsz",
+        deviceId: localStorage.getItem("deviceId") || "123123",
+        token: localStorage.getItem("token") || "example",
 
-        deviceSocketState: "connecting",
-        deviceRTCState: "connecting",
+        deviceSocketState: "online",
+        deviceRTCState: "online",
     }
 }
 

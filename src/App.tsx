@@ -4,11 +4,11 @@ import './App.css';
 const appInit: UI.App = {
     user: {
         test: "qqqq",
-        id: localStorage.getItem("userId") || "",
-        deviceId: localStorage.getItem("deviceId") || "",
-        token: localStorage.getItem("token") || "",
-        deviceSocketState: "connecting",
-        deviceRTCState: "connecting",
+        id: localStorage.getItem("userId") || "qsz",
+        deviceId: localStorage.getItem("deviceId") || "test-dev",
+        token: localStorage.getItem("token") || "example",
+        deviceSocketState: "online",
+        deviceRTCState: "online",
     }
 }
 const AppContext = React.createContext<[UI.App, React.Dispatch<React.SetStateAction<UI.App>>]>([appInit, () => {

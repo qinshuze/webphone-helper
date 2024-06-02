@@ -264,69 +264,69 @@ export default function Home() {
         const accessKey = process.env.REACT_APP_MSG_PUSH_ACCESS_KEY || ""
         const wsUrl = process.env.REACT_APP_MSG_PUSH_URL || ""
 
-        msgClient = new Client(`${wsUrl}?token=${token}&name=${userId}&room_ids=${deviceId}&realm=${accessKey}`)
-        msgClient.addEventListener("open", () => {
-            networkStateManager.start()
-        })
-
-        msgClient.addEventListener("close", (ev) => {
-            networkStateManager.stop()
-            switch (ev.code) {
-                case 3001:
-                    Modal.warning({
-                        title: "会话过期",
-                        content: <div>当前会话已失效，请重新登陆</div>,
-                        onOk: () => {
-                            setToken("")
-                            setUserId("")
-                            setDeviceId("")
-                            window.location.replace("/login")
-                        }
-                    })
-                    break
-                default:
-                    Modal.warning({
-                        title: "会话已关闭",
-                        content: <div>会话意外中断，请刷新页面进行重试。点击确认按钮刷新页面</div>,
-                        onOk: () => {
-                            window.location.reload()
-                        }
-                    })
-            }
-        })
-
-        msgClient.addEventListener("message", (ev) => {
-            const message = ev.message
-            if (message.sender !== deviceId) return;
-            switch (message.type) {
-                case "leave":
-                    setDeviceSocketState("offline")
-                    setNetworkDelay(0)
-                    networkStateManager.stop()
-                    break
-                case "join":
-                    setDeviceSocketState("online")
-                    setNetworkDelay(0)
-                    networkStateManager.start()
-                    break
-            }
-
-            const messageContent: MessageContent = JSON.parse(message.content)
-            switch (messageContent.msgType) {
-                case "logout":
-                    Modal.warning({
-                        title: "会话过期",
-                        content: <div>终端设备已退出，会话结束</div>,
-                        onOk: () => {
-                            setToken("")
-                            setUserId("")
-                            setDeviceId("")
-                            window.location.replace("/login")
-                        }
-                    })
-                    break
-            }
-        })
+        // msgClient = new Client(`${wsUrl}?token=${token}&name=${userId}&room_ids=${deviceId}&realm=${accessKey}`)
+        // msgClient.addEventListener("open", () => {
+        //     networkStateManager.start()
+        // })
+        //
+        // msgClient.addEventListener("close", (ev) => {
+        //     networkStateManager.stop()
+        //     switch (ev.code) {
+        //         case 3001:
+        //             Modal.warning({
+        //                 title: "会话过期",
+        //                 content: <div>当前会话已失效，请重新登陆</div>,
+        //                 onOk: () => {
+        //                     setToken("")
+        //                     setUserId("")
+        //                     setDeviceId("")
+        //                     window.location.replace("/login")
+        //                 }
+        //             })
+        //             break
+        //         default:
+        //             Modal.warning({
+        //                 title: "会话已关闭",
+        //                 content: <div>会话意外中断，请刷新页面进行重试。点击确认按钮刷新页面</div>,
+        //                 onOk: () => {
+        //                     window.location.reload()
+        //                 }
+        //             })
+        //     }
+        // })
+        //
+        // msgClient.addEventListener("message", (ev) => {
+        //     const message = ev.message
+        //     if (message.sender !== deviceId) return;
+        //     switch (message.type) {
+        //         case "leave":
+        //             setDeviceSocketState("offline")
+        //             setNetworkDelay(0)
+        //             networkStateManager.stop()
+        //             break
+        //         case "join":
+        //             setDeviceSocketState("online")
+        //             setNetworkDelay(0)
+        //             networkStateManager.start()
+        //             break
+        //     }
+        //
+        //     const messageContent: MessageContent = JSON.parse(message.content)
+        //     switch (messageContent.msgType) {
+        //         case "logout":
+        //             Modal.warning({
+        //                 title: "会话过期",
+        //                 content: <div>终端设备已退出，会话结束</div>,
+        //                 onOk: () => {
+        //                     setToken("")
+        //                     setUserId("")
+        //                     setDeviceId("")
+        //                     window.location.replace("/login")
+        //                 }
+        //             })
+        //             break
+        //     }
+        // })
     }, [])
 
     return (
@@ -387,34 +387,6 @@ export default function Home() {
 
                             const PlayVideo = (props: { open: boolean }) => {
                                 const videoRef = useRef<HTMLVideoElement>(null)
-                                useEffect(() => {
-                                    if (!videoRef.current || !ws) return
-                                    cameraPeerConn = makePeerConn(deviceId, ws, {
-                                        onOpen: () => {
-                                            setCameraState("open")
-                                        },
-                                        onFailure: () => {
-                                            setCameraState("failure")
-                                        },
-                                        onClose: () => {
-                                            setCameraState("close")
-                                        }
-                                    })
-
-                                    cameraPeerConn.open("camera")
-                                    cameraPeerConn.peerConnection.ontrack = (ev) => {
-                                        console.log(ev, videoRef)
-                                        if (ev.track.kind !== "video") return;
-                                        const video = document.getElementById("video") as HTMLVideoElement
-                                        video.srcObject = ev.streams[0]
-                                        video.play()
-
-                                        if (!videoRef.current) return;
-                                        videoRef.current.srcObject = ev.streams[0]
-                                        videoRef.current.play()
-                                    }
-
-                                }, [])
                                 console.log(props.open)
                                 return <video muted controls ref={videoRef} style={{display: props.open ? "inherit" : "none"}}></video>
                             }
@@ -440,8 +412,8 @@ export default function Home() {
                         </div>
                         <div onClick={() => {
                             Modal.warning({
-                                title: "功能未开放",
-                                content: <div>此功能正在开发中</div>,
+                                title: "状态异常",
+                                content: <div>网络通信异常：连接未打开</div>,
                                 onOk: () => {}
                             })
                         }} className="left-navigation-item">
@@ -449,16 +421,16 @@ export default function Home() {
                         </div>
                         <div onClick={() => {
                             Modal.warning({
-                                title: "功能未开放",
-                                content: <div>此功能正在开发中</div>,
+                                title: "状态异常",
+                                content: <div>网络通信异常：连接未打开</div>,
                                 onOk: () => {}
                             })
                         }} className="left-navigation-item"><img title="屏幕共享" className="left-navigation-icon" src={browser}
                                                                    alt=""/></div>
                         <div onClick={() => {
                             Modal.warning({
-                                title: "功能未开放",
-                                content: <div>此功能正在开发中</div>,
+                                title: "状态异常",
+                                content: <div>网络通信异常：连接未打开</div>,
                                 onOk: () => {}
                             })
                         }} className="left-navigation-item"><img title="短信" className="left-navigation-icon" src={sms} alt=""/>
@@ -520,16 +492,8 @@ export default function Home() {
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo"/>
                 <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
+                    静态展示页面
                 </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
             </header>
         </div>
     )
