@@ -1,5 +1,7 @@
 # webphone-helper
-网页手机助手，可以让你直接在网页浏览器中管理手机设备，线上demo地址 <a href="http://webphone.xianyudev.top" target="_blank">http://webphone.xianyudev.top</a>
+网页手机助手，可以让你直接在网页浏览器中管理手机设备   
+<a href="http://webphone.xianyudev.top" target="_blank">线上demo地址</a>   
+<a href="http://webphone-static.qszdev.top" target="_blank">线上静态页面预览地址</a>   
 
 ## 实时文件浏览
 ![image](https://github.com/qinshuze/webphone-helper/assets/22045080/5e184898-8fcf-41cb-ba3c-449e0d789183)
